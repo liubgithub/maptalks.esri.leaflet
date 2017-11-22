@@ -1,0 +1,58 @@
+{
+  "name": "maptalks.esri.leaflet",
+  "version": "0.0.1",
+  "description": "a plugin to intergrate arcgis javascript api with maptalks.js",
+  "main": "gulpfile.js",
+  "scripts": {
+    "preversion": "npm test",
+    "version": "gulp minify && git add -A dist",
+    "lint": "eslint index.js test/**/*.js",
+    "test": "gulp test",
+    "pretest": "npm run lint",
+    "prepublish": "npm run lint && gulp minify",
+    "build": "gulp minify",
+    "dev": "gulp watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axmand/maptalks.arcgis.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/axmand/maptalks.arcgis/issues"
+  },
+  "homepage": "https://github.com/axmand/maptalks.arcgis#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.0.2",
+    "babel-preset-es2015": "^6.24.1",
+    "echarts": "^3.8.5",
+    "eslint": "^4.11.0",
+    "eslint-config-maptalks": "^0.2.2",
+    "eslint-plugin-mocha": "^4.11.0",
+    "expect-maptalks": "^0.4.1",
+    "expect.js": "^0.3.1",
+    "gulp": "^3.9.1",
+    "happen": "^0.3.2",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-expect": "^1.1.3",
+    "karma-expect-maptalks": "^0.1.5",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-happen": "^0.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "maptalks": "^0.34.0",
+    "maptalks-build-helpers": "^0.4.2",
+    "minimist": "^1.2.0",
+    "mocha": "^4.0.1"
+  },
+  "peerDependencies": {
+    "maptalks": "^0.34.0"
+  },
+  "dependencies": {
+    "esri-leaflet": "^2.1.1",
+    "leaflet": "^1.2.0"
+  }
+}
