@@ -8,7 +8,7 @@ const karmaConfig = require('./karma.config');
 
 gulp.task('build', () => {
     const rollupConfig = bundleHelper.getDefaultRollupConfig();
-    rollupConfig['external'] = ['maptalks'];
+    rollupConfig['external'] = ['maptalks','esri-leaflet','leaflet'];
     return bundleHelper.bundle('index.js', rollupConfig);
 });
 
