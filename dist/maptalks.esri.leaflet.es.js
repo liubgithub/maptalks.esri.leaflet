@@ -19,7 +19,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
 var options = {
-    'container': 'front',
     'renderer': 'dom',
     'hideOnZooming': false,
     'hideOnMoving': false,
@@ -42,7 +41,7 @@ LeafletLayer.mergeOptions(options);
 
 LeafletLayer.registerJSONType('LeafletLayer');
 
-ArcGISLayer.registerRenderer('dom', function () {
+LeafletLayer.registerRenderer('dom', function () {
     function _class(layer) {
         _classCallCheck(this, _class);
 
@@ -125,16 +124,33 @@ ArcGISLayer.registerRenderer('dom', function () {
         parent.appendChild(container);
     };
 
+    _class.prototype.needToRedraw = function needToRedraw() {
+        var map$$1 = this.getMap();
+        var renderer = map$$1._getRenderer();
+        return map$$1.isInteracting() || renderer && (renderer.isStateChanged && renderer.isStateChanged() || renderer.isViewChanged && renderer.isViewChanged());
+    };
+
     _class.prototype.render = function render() {
         !this._container ? this._createLayerContainer() : null;
         if (!this.glmap) {
             var _map = this.getMap();
             var center = _map.getCenter();
 
-            this.glmap = map(this._container).setView([center.x, center.y], _map.getZoom() - 1);
+            this.glmap = map(this._container).setView([center.y, center.x], _map.getZoom() - 1);
 
-            esri.basemapLayer('Streets').addTo(this.map);
+            esri.basemapLayer('Streets').addTo(this.glmap);
         }
+        this._syncMap();
+    };
+
+    _class.prototype._syncMap = function _syncMap() {
+        var _map = this.getMap();
+        if (!this.glmap || !_map) {
+            return;
+        }
+        var center = _map.getCenter();
+
+        this.glmap.setView([center.y, center.x], _map.getZoom() - 1);
     };
 
     return _class;

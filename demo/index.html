@@ -6,15 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <!-- maptalks -->
-    <link type="text/css" rel="stylesheet" href="../node_modules/maptalks/dist/maptalks.css"/>
+    <link type="text/css" rel="stylesheet" href="../node_modules/maptalks/dist/maptalks.css" />
     <script src="../node_modules/maptalks/dist/maptalks.min.js"></script>
     <!-- leaflet -->
-    <link type="text/css" rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css"/>
+    <link type="text/css" rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
     <script src="../node_modules/leaflet/dist/leaflet.js"></script>
     <!-- esri -->
     <script src="../node_modules/esri-leaflet/dist/esri-leaflet.js"></script>
+    <!-- maptalks-esri-leaflet -->
+    <script src="../dist/maptalks.esri.leaflet.js"></script>
 </head>
 <body>
-    
+    <div id="map" style="width:800px;height:600px;"></div>
+    <script type="text/javascript">
+
+        var leafletLayer = new maptalks.LeafletLayer();
+
+        var map = new maptalks.Map("map", {
+            center: [113.28245, 30.92121],
+            zoom: 9,
+            baseLayer: leafletLayer
+        });
+
+    </script>
 </body>
 </html>

@@ -4,7 +4,7 @@ import * as E from 'esri-leaflet';
 
 
 const options = {
-    'container': 'front',
+    //'container': 'front',
     'renderer': 'dom',
     'hideOnZooming': false,
     'hideOnMoving': false,
@@ -19,7 +19,7 @@ LeafletLayer.mergeOptions(options);
 
 LeafletLayer.registerJSONType('LeafletLayer');
 
-ArcGISLayer.registerRenderer('dom',class{
+LeafletLayer.registerRenderer('dom',class{
 
     constructor(layer) {
         this.layer = layer;
@@ -104,16 +104,40 @@ ArcGISLayer.registerRenderer('dom',class{
         parent.appendChild(container);
     }
 
+    needToRedraw() {
+        const map = this.getMap();
+        const renderer = map._getRenderer();
+        return map.isInteracting() || renderer && (renderer.isStateChanged && renderer.isStateChanged() || renderer.isViewChanged && renderer.isViewChanged());
+    }
+
+
     render() {
         !this._container ? this._createLayerContainer() : null;
         if (!this.glmap) {
             var _map = this.getMap();
             var center = _map.getCenter();
             //创建leaflet map
-            this.glmap = L.map(this._container).setView([center.x, center.y], _map.getZoom() - 1)
+            this.glmap = L.map(this._container).setView([center.y, center.x], _map.getZoom() - 1)
             //添加图层
-            L.esri.basemapLayer('Streets').addTo(this.map);
+            L.esri.basemapLayer('Streets').addTo(this.glmap);
         }
+        this._syncMap();
     }
+
+    _syncMap(){
+        const _map = this.getMap();
+        if (!this.glmap || !_map) {
+            return;
+        }
+        const center = _map.getCenter();
+        // const cameraOptions = {
+        //     'center' : new mapboxgl.LngLat(center.x, center.y),
+        //     'zoom'   : _map.getZoom() - 1,
+        //     'bearing' : _map.getBearing(),
+        //     'pitch' : _map.getPitch()
+        // };
+        this.glmap.setView([center.y,center.x], _map.getZoom() - 1);
+    }
+
 
 })
